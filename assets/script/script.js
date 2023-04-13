@@ -26,6 +26,7 @@ function enterRoom (name) {
         connectionInterval = setInterval(() => {
           connectionStatus(name);
         }, 5000);
+        getMessages();
 
         getMessageInterval = setInterval(getMessages, 3000);
       } else {
