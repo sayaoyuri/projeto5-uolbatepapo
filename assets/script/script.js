@@ -1,5 +1,3 @@
-getUserName();
-
 axios.defaults.headers.common['Authorization'] = 'M813n9erPvENXeuGPzKDL1Iu';
 let connectionInterval;
 let getMessageInterval;
@@ -30,6 +28,8 @@ function enterRoom (name) {
         }, 5000);
 
         getMessageInterval = setInterval(getMessages, 3000);
+      } else {
+        getUserName(true);
       }
     }).catch((error) => {
       if(error.response.status === 400) {
@@ -51,6 +51,8 @@ function getUserName (invalidUser) {
 
   enterRoom(name);
 }
+
+getUserName();
 
 function sendMessage () {
   const content = document.getElementById('messageInput');
