@@ -57,8 +57,12 @@ li time::after {
   content: ')';
 }
 
-.status, .private {
+.status {
   background-color: #FFDEDE;
+}
+
+.private {
+  background-color: pink;
 }
 
 span {

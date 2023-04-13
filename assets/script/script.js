@@ -77,7 +77,7 @@ function sendMessage () {
         window.location.reload();
       }
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       window.location.reload();
     });
 }
@@ -107,6 +107,16 @@ function getMessages () {
               </p>
             </li>
           `;
+        } else if(message.type === 'private_message') {
+          messagesContainer.innerHTML += `
+            <li data-test='message' class='private'>
+              <p>
+                <time datetime="${message.time}">${message.time}</time>
+                <span>${message.from} </span> enviou mensagem reservadamente para <span>${message.to}</span> 
+              </p>
+            </li>
+          `;
+          // ${message.text}
         }
     
       });
