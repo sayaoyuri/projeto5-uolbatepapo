@@ -1,5 +1,6 @@
 axios.defaults.headers.common['Authorization'] = 'M813n9erPvENXeuGPzKDL1Iu';
 let connectionInterval;
+let getMessageInterval;
 let userName;
 
 function connectionStatus (name) {
@@ -11,6 +12,7 @@ function connectionStatus (name) {
       if(error.response.status === 400) {
         console.log('Erro status: - ' + error);
         clearInterval(connectionInterval);
+        clearInterval(getMessageInterval);
         getUserName();
       }
     });
@@ -24,6 +26,8 @@ function enterRoom (name) {
         connectionInterval = setInterval(() => {
           connectionStatus(name);
         }, 5000);
+
+        getMessageInterval = setInterval(getMessages, 3000);
       }
     }).catch((error) => {
       if(error.response.status === 400) {
@@ -65,14 +69,41 @@ function sendMessage () {
   axios.post('https://mock-api.driven.com.br/api/vm/uol/messages', message)
     .then((response) => {
       if(response.status === 200) {
-        console.log(response);
-
-        text.value = '';
+        content.value = '';
         getMessages();
       }
     });
 }
 
 function getMessages () {
-  // to implement
+  axios.get('https://mock-api.driven.com.br/api/vm/uol/messages')
+    .then((response) => {
+      const messagesContainer = document.querySelector('.message-container');
+      messagesContainer.innerHTML = '';
+
+      response.data.forEach((message) => {
+        if(message.type === 'message') {
+          messagesContainer.innerHTML += `
+            <li>
+              <p>
+                <time datetime="${message.time}">${message.time}</time>
+                <span>${message.from}</span> para <span>Todos: </span> ${message.text}
+              </p>
+            </li>
+          `;
+        } else if(message.type === 'status') {
+          messagesContainer.innerHTML += `
+            <li class="status">
+              <p>
+                <time datetime="${message.time}">${message.time}</time>
+                <span>${message.from} </span> ${message.text}
+              </p>
+            </li>
+          `;
+        }
+    
+      });
+    }).catch((error) => {
+      console.log(error);
+    })
 }
