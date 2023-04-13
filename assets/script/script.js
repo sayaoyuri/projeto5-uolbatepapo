@@ -72,6 +72,9 @@ function sendMessage () {
         content.value = '';
         getMessages();
       }
+    }).catch((error) => {
+      console.log(error);
+      window.location.reload();
     });
 }
 
@@ -84,7 +87,7 @@ function getMessages () {
       response.data.forEach((message) => {
         if(message.type === 'message') {
           messagesContainer.innerHTML += `
-            <li>
+            <li data-test='message'>
               <p>
                 <time datetime="${message.time}">${message.time}</time>
                 <span>${message.from}</span> para <span>Todos: </span> ${message.text}
@@ -93,7 +96,7 @@ function getMessages () {
           `;
         } else if(message.type === 'status') {
           messagesContainer.innerHTML += `
-            <li class="status">
+            <li data-test='message' class='status'>
               <p>
                 <time datetime="${message.time}">${message.time}</time>
                 <span>${message.from} </span> ${message.text}
