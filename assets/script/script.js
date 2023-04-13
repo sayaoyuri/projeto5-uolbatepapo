@@ -77,7 +77,7 @@ function sendMessage () {
         window.location.reload();
       }
     }).catch((error) => {
-      // console.log(error);
+      console.log(error);
       window.location.reload();
     });
 }
@@ -89,7 +89,7 @@ function getMessages () {
       messagesContainer.innerHTML = '';
 
       response.data.forEach((message) => {
-        if(message.type === 'message') {
+        if(message.type === 'message' || message.type === 'private_messa') {
           messagesContainer.innerHTML += `
             <li data-test='message'>
               <p>
@@ -107,17 +107,17 @@ function getMessages () {
               </p>
             </li>
           `;
-        } else if(message.type === 'private_message') {
-          messagesContainer.innerHTML += `
-            <li data-test='message' class='private'>
-              <p>
-                <time datetime="${message.time}">${message.time}</time>
-                <span>${message.from} </span> enviou mensagem reservadamente para <span>${message.to}</span> 
-              </p>
-            </li>
-          `;
-          // ${message.text}
-        }
+        } 
+        // else if(message.type === 'private_message') {
+        //   messagesContainer.innerHTML += `
+        //     <li data-test='message' class='private'>
+        //       <p>
+        //         <time datetime="${message.time}">${message.time}</time>
+        //         <span>${message.from} </span> reservadamente para <span>${message.to}:</span> ${message.text}
+        //       </p>
+        //     </li>
+        //   `;
+        // }
     
       });
     }).catch((error) => {
