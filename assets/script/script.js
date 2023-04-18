@@ -70,8 +70,9 @@ function sendMessage () {
   axios.post('https://mock-api.driven.com.br/api/vm/uol/messages', message)
     .then((response) => {
       if(response.status === 200) { // if success, clear the input and get the available messages from the server
-        content.value = '';
         getMessages();
+        content.value = '';
+        content.focus();
       } else {
         window.location.reload();
       }
@@ -79,6 +80,9 @@ function sendMessage () {
       window.location.reload();
     });
 }
+
+// sendMessage when Enter ispressed
+document.querySelector('#messageInput').addEventListener('keypress', ev => ev.keyCode === 13 ? sendMessage() : false);
 
 // Responsable for getting the server messages and redendering them on the page
 function getMessages () {
